@@ -1,16 +1,21 @@
 #!/usr/bin/python3
+"""Script continually adds arguments to a JSON string in a file
+    called add_item.json
+"""
 
-"""Add all arguments to a Python list and save them to a file."""
-import sys
+from sys import argv
+save_to_json_file = __import__('5-save_to_json_file').save_to_json_file
+load_from_json_file = __import__('6-load_from_json_file').load_from_json_file
 
 if __name__ == "__main__":
-    save_to_json_file = __import__('5-save_to_json_file').save_to_json_file
-    load_from_json_file = \
-        __import__('6-load_from_json_file').load_from_json_file
-
     try:
-        items = load_from_json_file("add_item.json")
-    except FileNotFoundError:
-        items = []
-    items.extend(sys.argv[1:])
-    save_to_json_file(items, "add_item.json")
+        json_list = load_from_json_file("add_item.json")
+    
+    except Exception:
+        json_list = []
+    
+    i = 1
+    while (i < len(argv)):
+        json_list.append(argv[i])
+        i += 1
+    save_to_json_file(json_list, "add_item.json")
